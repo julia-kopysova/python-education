@@ -1,0 +1,1 @@
+sudo docker run jkopysova/current_datetime:latest
