@@ -95,18 +95,18 @@ class Calculator:
 
 first_operand = float(input("Please enter the first number : "))
 second_operand = float(input("Please enter the second number : "))
-obj = Calculator(first_operand, second_operand)
+my_calc = Calculator(first_operand, second_operand)
 while True:
     choice = int(input("Please select the options: \n1 - Addition \n2 - Subtraction "
                        "\n3 - Multiplication \n4 - Division "))
     if choice == 1:
-        print("Result: ", obj.add())
+        print("Result: ", my_calc.add())
     elif choice == 2:
-        print("Result: ", obj.sub())
+        print("Result: ", my_calc.sub())
     elif choice == 3:
-        print("Result: ", obj.mul())
+        print("Result: ", my_calc.mul())
     elif choice == 4:
-        print("Result: ", obj.div())
+        print("Result: ", my_calc.div())
     elif choice == 0:
         print("Exit ")
         break
