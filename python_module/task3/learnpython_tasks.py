@@ -2,6 +2,7 @@
 This module demonstrates resolved tasks from https://www.learnpython.org/en/
 """
 from typing import List
+import re
 
 
 def print_hello() -> type(None):
@@ -264,33 +265,83 @@ def multiple_function(first_num, second_num, third_num, **kwargs) -> bool:
     return kwargs["magic_number"] == 7
 
 
+def dictionary_commands() -> type(None):
+    """
+    This function adds "Jake" to the phonebook
+    with the phone number 938273443,
+    removes Jill from the phonebook
+    checks the result
+
+    Returns:
+        type(None): Returning None
+    """
+    phonebook = {"John": 938477566, "Jack": 938377264, "Jill": 947662781, "Jake": 938273443}
+    del phonebook["Jill"]
+
+    if "Jake" in phonebook:
+        print("Jake is listed in the phonebook.")
+
+    if "Jill" not in phonebook:
+        print("Jill is not listed in the phonebook.")
+
+
+def find_difference() -> type(None):
+    """
+    This function uses the given lists to print out
+    a set containing all the participants
+    from first_list  which did not attend second_list.
+
+    Returns:
+        type(None): Returning None
+    """
+    first_list = ["Jake", "John", "Eric"]
+    second_list = ["John", "Jill"]
+
+    print(set(first_list).difference(set(second_list)))
+
+
+def find_function() -> type(None):
+    """
+    This function prints an alphabetically sorted list of
+    all functions in the re module, which contain the word "find"
+
+    Returns:
+        type(None): Returning None
+    """
+    find_members = []
+    for member in dir(re):
+        if "find" in member:
+            find_members.append(member)
+    print(sorted(find_members))
+
+
 if __name__ == "__main__":
     # Task 1: "Hello, World"
-    # print_hello()
+    print_hello()
 
     # Task 2: Variables and Types
-    # print_values()
+    print_values()
 
     # Task 3: Lists
-    # print_list()
+    print_list()
 
     # Task 4: Basic Operators
-    # using_operators()
+    using_operators()
 
     # Task 5: String Formatting
-    # print_format_string()
+    print_format_string()
 
     # Task 6: Basic String Operations
-    # string_operating()
+    string_operating()
 
     # Task 7: Conditions
-    # condition_operation()
+    condition_operation()
 
     # Task 8: Loops
-    # print_even_num()
+    print_even_num()
 
     # Task 9: Functions
-    # name_the_benefits_of_functions()
+    name_the_benefits_of_functions()
 
     # Task 10: Multiple Function Arguments
     if len_args(1, 2, 3, 4) == 1:
@@ -302,4 +353,11 @@ if __name__ == "__main__":
     if multiple_function(1, 2, 3, magic_number=7):
         print("Awesome!")
 
+    # Task 11: Dictionaries
+    dictionary_commands()
 
+    # Task 12: Sets
+    find_difference()
+
+    # Task 13: Modules and Packages
+    find_function()
