@@ -1,6 +1,7 @@
 """
 This module organizes a class hierarchy of transport system
 """
+from abc import ABC, abstractmethod
 
 
 class Transport:
@@ -227,7 +228,55 @@ class AirTransport(Transport):
         """
         Returns string representation of info in instance
         """
-        return super().__str__() + f"Assignment:{self.assignment}"
+        return super().__str__() + f"\nAssignment:{self.assignment}"
+
+
+class PassengerTransportation(ABC):
+    """
+    This class is used to represent an Passenger function
+    of transport
+    level_comfort: str: price policy
+    type_transport: str: type of transportation in
+        geographical  consideration: intercity or international
+    """
+
+    def __init__(self, level_comfort: str, type_transport: str) -> None:
+        """
+        Initializes Passenger Transportation class with parameters
+        :param level_comfort: str: price policy
+        :param type_transport: str: type of transportation in
+        """
+        self.level_comfort: str = level_comfort
+        self.type_transport: str = type_transport
+
+    @abstractmethod
+    def movement(self):
+        """
+        Displays type of movement
+        :return: None
+        """
+
+    @abstractmethod
+    def capability(self):
+        """
+        Displays advantages and capabilities
+        :return: None
+        """
+        print("Designed for passenger transportation")
+
+
+class Plane(PassengerTransportation, AirTransport):
+    def __init__(self, level_comfort: str, type_transport: str,
+                 type_engine: str, avg_speed: float,
+                 assignment: str):
+        PassengerTransportation.__init__(self, level_comfort, type_transport)
+        AirTransport.__init__(self, type_engine, avg_speed, assignment)
+
+    def movement(self) -> None:
+        print("Fly")
+
+    def capability(self) -> None:
+        super(Plane, self).capability()
 
 
 if __name__ == "__main__":
@@ -264,3 +313,10 @@ if __name__ == "__main__":
     print(air_transport)
     print(f"Time {'%.2f' % truck_transport.driving_time(1500)} sec "
           f"with average speed {truck_transport.avg_speed}")
+
+    # Test Plane
+    print('=' * 19)
+    plane_transport = Plane("VIP", "International", "Fuel", 1000.0, "Passenger")
+    print(plane_transport)
+    plane_transport.movement()
+    plane_transport.capability()
