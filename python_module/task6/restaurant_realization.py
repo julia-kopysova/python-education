@@ -332,10 +332,11 @@ class Admin(Person):
         return new_position
 
     @staticmethod
-    def create_order(name: str, surname: str, address: str, phone: str,
+    def create_order(name: str, surname: str, current_delivery: Delivery,
                      *positions: PositionInOrder) -> Order:
         """
         Method creates Order
+        :param current_delivery: Delivery
         :param name: str
         :param surname: str
         :param address: str
@@ -344,8 +345,7 @@ class Admin(Person):
         :return: Order
         """
         new_customer = Customer(name, surname)
-        new_delivery = Delivery(new_customer, address, phone)
-        new_order = Order(new_customer, None, new_delivery, *positions)
+        new_order = Order(new_customer, None, current_delivery, *positions)
         return new_order
 
     @staticmethod
@@ -410,7 +410,7 @@ if __name__ == "__main__":
     order2 = Order(customer1, waiter, delivery, position_in_order1, position_in_order2)
     print(order1)
     print(order2)
-    order3 = Admin.create_order("Tom", "Kodd", "Polize St,7", "0996784566", Admin.create_position(dish1, 2),
+    order3 = Admin.create_order("Tom", "Kodd", delivery, Admin.create_position(dish1, 2),
                                 Admin.create_position(dish2, 3))
     print(order3)
     Admin.set_waiter(order3, waiter)
