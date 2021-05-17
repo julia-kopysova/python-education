@@ -5,7 +5,7 @@ class SentenceIterator:
     """
     Class represents Iterator for Sentence
     Attributes:
-        _string: str: string that will be operated
+        words: List[str]: string that will be operated
         length: int: amount of words in string
     Properties:
         words(self): List[str]: returns list of words in string
@@ -13,29 +13,16 @@ class SentenceIterator:
         __iter__(self): returns itself
         __next__(self): raises Error
     """
-    def __init__(self, string: str) -> None:
+    def __init__(self, words: List[str]) -> None:
         """
         Initializes Sentence Iterator
         If string is not a sentence, raises ValueError
         If string is not str, raises TypeError
-        :param string: str: string for operation
+        :param words: List[str]: string for operation
         :return: None
         """
-        if type(string) is not str:
-            raise TypeError
-        elif string[-1] != "." and string[-1] != "!" and string[-1] != "?":
-            raise ValueError
-        else:
-            self._string: str = string
+        self.words = words
         self.length: int = len(self.words)
-
-    @property
-    def words(self) -> List[str]:
-        """
-        Property for splitting a string into a list word by word
-        :return: List[str]: list of words from sentence
-        """
-        return self._string.split()
 
     def __iter__(self):
         """
@@ -82,9 +69,9 @@ class Sentence:
         :return: None
         """
         if type(string) is not str:
-            raise TypeError
+            raise TypeError("It is not string")
         elif string[-1] != "." and string[-1] != "!" and string[-1] != "?":
-            raise ValueError
+            raise ValueError("String is not a sentence")
         else:
             self._string = string
         self.length = len(self.words)
@@ -104,7 +91,8 @@ class Sentence:
         Property for splitting a string into a list word by word
         :return: List[str]: list of words from sentence
         """
-        return self._string.split()
+        filter_string = ''.join(c for c in self._string if c.isalpha() or c == " ")
+        return filter_string.split()
 
     @property
     def other_chars(self) -> List[str]:
@@ -113,9 +101,9 @@ class Sentence:
         :return: List[str]: list of other chars from sentence
         """
         list_chars = []
-        for i, c in enumerate(self._string):
-            if not c.isalpha():
-                list_chars.append(c)
+        for char in self._string:
+            if not char.isalpha():
+                list_chars.append(char)
         return list_chars
 
     def __repr__(self) -> str:
@@ -123,13 +111,13 @@ class Sentence:
         String representation
         :return: str
         """
-        return f"Sentence: {self._string} (words={len(self.words)}, other_chars={len(self.other_chars)})"
+        return f"Sentence(words={len(self.words)}, other_chars={len(self.other_chars)})"
 
     def __iter__(self):
         """
         Returns iterator
         """
-        return SentenceIterator(self._string)
+        return SentenceIterator(self.words)
 
     def __len__(self) -> int:
         """
@@ -143,13 +131,7 @@ class Sentence:
         :param index: number of position the word in string
         :return: str
         """
-        if isinstance(index, slice):
-            return self.words[index.start:index.stop:index.step]
-        else:
-            if index >= len(self):
-                raise IndexError
-            else:
-                return self.words[index]
+        return self.words[index]
 
 
 if __name__ == "__main__":
