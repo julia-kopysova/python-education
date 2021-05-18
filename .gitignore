@@ -1,3 +1,4 @@
 .idea/
 venv/
 python_module/task_2/python_task2/
+/python_module/tic_tac_toe/winners_game.log
