@@ -1,6 +1,6 @@
 import pytest
 
-from stack import Stack
+from data_structures_module.structures.stack import Stack
 
 
 @pytest.fixture

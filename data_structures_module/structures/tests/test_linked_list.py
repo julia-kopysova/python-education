@@ -1,6 +1,6 @@
 import pytest
 
-from linked_list import Node, LinkedList
+from data_structures_module.structures.linked_list import LinkedList, Node
 
 
 @pytest.mark.parametrize("element, expected", [(None, None),

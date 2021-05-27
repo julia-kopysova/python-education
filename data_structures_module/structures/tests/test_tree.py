@@ -1,6 +1,6 @@
 import pytest
 
-from tree import Tree, Node
+from data_structures_module.structures.tree import Tree, Node
 
 
 def test_create_node():
