@@ -2,7 +2,7 @@ import pytest
 
 from algorithms_module.binary_search import binary_search
 from algorithms_module.factorial import factorial
-from algorithms_module.quick_sort import quick_sort
+from algorithms_module.quick_sort import quick_sort, quick_sort_iterative
 
 
 @pytest.fixture
@@ -13,6 +13,10 @@ def list_sort():
 
 def test_quick_sort(list_sort):
     assert quick_sort(list_sort, 0, len(list_sort) - 1) == list_sort.sort()
+
+
+def test_quick_sort_iter(list_sort):
+    assert quick_sort_iterative(list_sort, 0, len(list_sort) - 1) == list_sort.sort()
 
 
 @pytest.fixture
