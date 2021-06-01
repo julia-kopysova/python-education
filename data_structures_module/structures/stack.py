@@ -1,4 +1,4 @@
-from linked_list import LinkedList
+from data_structures_module.structures.linked_list import LinkedList
 
 
 class Stack(LinkedList):

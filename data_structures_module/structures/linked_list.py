@@ -130,3 +130,19 @@ class LinkedList:
             node_next = node.next.next
             node.next = None
             node.next = node_next
+
+    def insert(self, new_element, index):
+        node = Node(new_element)
+        if index < 0:
+            raise ValueError("Index is less than needed")
+        elif index == 0:
+            node.next = self.head
+            self.head = node
+        else:
+            temp = self.head
+            for i in range(0, index - 1):
+                if temp is not None:
+                    temp = temp.next
+            if temp is not None:
+                node.next = temp.next
+                temp.next = node

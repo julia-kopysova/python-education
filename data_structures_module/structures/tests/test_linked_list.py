@@ -64,3 +64,15 @@ def test_delete_element(linked_list):
 def test_delete_by_index(linked_list):
     linked_list.delete_by_index(1)
     assert "1" not in linked_list
+
+
+@pytest.mark.parametrize("index, expected", [(0, 0),
+                                             (2, 2)])
+def test_insert(linked_list, index, expected):
+    linked_list.insert("middle", index)
+    assert "middle" in linked_list and linked_list.get_index("middle") == expected
+
+
+def test_insert_exception(linked_list):
+    with pytest.raises(ValueError):
+        linked_list.insert("middle", -9)

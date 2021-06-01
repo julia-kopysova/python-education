@@ -61,3 +61,9 @@ def tree():
                                                (3, False)])
 def test_tree_lookup(tree, element, expected):
     assert tree.lookup(element) == expected
+
+
+@pytest.mark.parametrize("element, expected", [(5, True),
+                                               (3, False)])
+def test_tree_delete(tree, element, expected):
+    assert tree.delete(element) == expected
