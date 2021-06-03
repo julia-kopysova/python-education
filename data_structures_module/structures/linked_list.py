@@ -146,3 +146,26 @@ class LinkedList:
             if temp is not None:
                 node.next = temp.next
                 temp.next = node
+
+    def get_node_by_element(self, element):
+        if element in self:
+            node = self.head
+            index_element = 0
+            while index_element <= len(self):
+                if node.element == element:
+                    return node
+                node = node.next
+                index_element += 1
+        else:
+            return None
+
+    def get_node_by_index(self, index):
+        if index >= len(self):
+            raise IndexError("Index out of Linked List")
+        index_element = 0
+        node = self.head
+        while True:
+            if index_element == index:
+                return node
+            node = node.next
+            index_element += 1
