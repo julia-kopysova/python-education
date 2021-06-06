@@ -96,25 +96,6 @@ class LinkedList:
         # else:
         #     self.head = node
 
-    def delete_element(self, element):
-        node = self.head
-        if node is not None:
-            if node and node.element == element:
-                self.head = node.next
-                node = None
-            else:
-                prev_node = None
-                while node is not None and node.element != element:
-                    prev_node = node
-                    node = node.next
-                    if node.next is None:
-                        self.tail = prev_node
-                if node is not None:
-                    prev_node.next = node.next
-                    node = None
-        else:
-            print("Linked List is empty")
-
     def delete_by_index(self, index):
         node = self.head
         if index == 0:
@@ -169,3 +150,31 @@ class LinkedList:
                 return node
             node = node.next
             index_element += 1
+
+    def delete_element(self, element):
+        """
+        Deletes elements
+        """
+        node = self.head
+        if node is None:
+            print("Linked List is empty")
+        else:
+            index = 0
+
+            while node is not None:
+                if node.element[0] == element:
+                    self.delete_by_index(index)
+                else:
+                    index += 1
+                node = node.next
+
+    def lookup_value(self, key):
+        """
+        Returns value by key
+        """
+        node = self.head
+        while node is not None:
+            if node.element[0] == key:
+                return node.element[1]
+            node = node.next
+        return None
