@@ -178,3 +178,21 @@ class LinkedList:
                 return node.element[1]
             node = node.next
         return None
+
+    def delete_el_gr(self, element):
+        temp = self.head
+        if temp is not None:
+            if temp.element == element:
+                self.head = temp.next
+                temp = None
+                return
+        prev = None
+        while temp is not None:
+            if temp.element == element:
+                break
+            prev = temp
+            temp = temp.next
+        if temp is None:
+            return
+        prev.next = temp.next
+        temp = None
