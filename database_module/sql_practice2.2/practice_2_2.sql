@@ -11,7 +11,7 @@ SELECT * FROM order_statuses;
 SELECT *
 FROM orders o
 JOIN order_statuses os ON o.order_statuses_order_status_id = os.order_status_id
-WHERE os.status_name IN ('Paid', 'Finished');
+WHERE os.status_name = 'Finished';
 
 -- 1. Продукты, цена которых больше 80.00 и меньше или равно 150.00
 SELECT *
@@ -40,7 +40,7 @@ SELECT *
 FROM orders o
 JOIN order_statuses os ON o.order_statuses_order_status_id = os.order_status_id
 WHERE os.status_name NOT IN ('Finished', 'Canceled')
-  AND o.updated_at::date > '2020-12-31';
+  AND o.updated_at::date <= '2020-12-31';
 
 -- 6.Вывести все корзины, которые были созданы, но заказ так и не был оформлен.
 SELECT c.cart_id, c.users_user_id, c.subtotal, c.total, c.timestamp
