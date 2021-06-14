@@ -96,27 +96,25 @@ ORDER BY count DESC
 LIMIT 10;
 
 -- 5. Вывести топ 5 юзеров, которые потратили больше всего денег (total в заказе).
-SELECT u.first_name, u.last_name, co.sum as sum
+SELECT u.first_name, u.last_name, SUM(o.total) as sum
 FROM users u
-JOIN (SELECT c.users_user_id as user_id, SUM(so.sum_cart) as sum
-FROM carts c
-JOIN (SELECT o.carts_cart_id as cart_id, SUM(o.total) as sum_cart
-    FROM orders o
-    GROUP BY o.carts_cart_id) so ON c.cart_id = so.cart_id
-GROUP BY c.users_user_id) co ON u.user_id = co.user_id
+LEFT JOIN carts c on u.user_id = c.users_user_id
+LEFT JOIN orders o on c.cart_id = o.carts_cart_id
+GROUP BY u.first_name, u.last_name
 ORDER BY sum DESC
+NULLS LAST
 LIMIT 5;
 
+
+
 -- 6. Вывести топ 5 юзеров, которые сделали больше всего заказов (кол-во заказов).
-SELECT u.first_name, u.last_name, co.count as count
+SELECT u.first_name, u.last_name, COUNT(o.order_id) as count
 FROM users u
-JOIN (SELECT c.users_user_id as user_id, SUM(so.count_orders) as count
-FROM carts c
-JOIN (SELECT o.carts_cart_id as cart_id, COUNT(o.order_id) as count_orders
-    FROM orders o
-    GROUP BY o.carts_cart_id) so ON c.cart_id = so.cart_id
-GROUP BY c.users_user_id) co ON u.user_id = co.user_id
-ORDER BY count DESC
+LEFT JOIN carts c on u.user_id = c.users_user_id
+LEFT JOIN orders o on c.cart_id = o.carts_cart_id
+GROUP BY u.first_name, u.last_name
+ORDER BY count  DESC
+NULLS LAST
 LIMIT 5;
 
 --Check
