@@ -100,9 +100,10 @@ SELECT u.first_name, u.last_name, SUM(o.total) as sum
 FROM users u
 LEFT JOIN carts c on u.user_id = c.users_user_id
 LEFT JOIN orders o on c.cart_id = o.carts_cart_id
+LEFT JOIN order_statuses os on o.order_statuses_order_status_id = os.order_status_id
+WHERE os.status_name IN ('Paid', 'Finished')
 GROUP BY u.first_name, u.last_name
 ORDER BY sum DESC
-NULLS LAST
 LIMIT 5;
 
 
@@ -112,9 +113,10 @@ SELECT u.first_name, u.last_name, COUNT(o.order_id) as count
 FROM users u
 LEFT JOIN carts c on u.user_id = c.users_user_id
 LEFT JOIN orders o on c.cart_id = o.carts_cart_id
-GROUP BY u.first_name, u.last_name
+LEFT JOIN order_statuses os on o.order_statuses_order_status_id = os.order_status_id
+WHERE os.status_name IN ('Paid', 'Finished')
+GROUP BY o.carts_cart_id, u.first_name, u.last_name
 ORDER BY count  DESC
-NULLS LAST
 LIMIT 5;
 
 --Check
