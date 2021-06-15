@@ -115,7 +115,7 @@ LEFT JOIN carts c on u.user_id = c.users_user_id
 LEFT JOIN orders o on c.cart_id = o.carts_cart_id
 LEFT JOIN order_statuses os on o.order_statuses_order_status_id = os.order_status_id
 WHERE os.status_name IN ('Paid', 'Finished')
-GROUP BY o.carts_cart_id, u.first_name, u.last_name
+GROUP BY u.first_name, u.last_name
 ORDER BY count  DESC
 LIMIT 5;
 
