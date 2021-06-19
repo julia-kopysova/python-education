@@ -1,22 +1,20 @@
-CREATE OR REPLACE PROCEDURE increase_price_by_category(category_name varchar,
+CREATE OR REPLACE PROCEDURE increase_price_by_category(need_category_name varchar,
                                                        percent float)
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    product record;
+    need_category_id int;
 BEGIN
     IF percent > 0 THEN
-        IF EXISTS(SELECT 1 FROM categories WHERE category_title = category_name) THEN
-            FOR product IN (SELECT p.product_id, p.price FROM products p
-                            JOIN categories c on c.category_id = p.categories_category_id
-                            WHERE c.category_title = category_name)
-            LOOP
-                UPDATE products SET price = product.price + product.price*percent/100
-                WHERE product_id = product.product_id;
-            END LOOP;
-            COMMIT;
+        IF EXISTS(SELECT 1 FROM categories WHERE category_title = need_category_name) THEN
+            SELECT INTO need_category_id category_id
+                    FROM categories
+                    WHERE category_title = need_category_name;
+            UPDATE products SET price = price + price*percent/100
+                    WHERE categories_category_id = need_category_id;
+        COMMIT;
         ELSE
-            RAISE EXCEPTION '% was not found', category_name;
+            RAISE EXCEPTION '% was not found', need_category_name;
         END IF;
     ELSE
         RAISE EXCEPTION 'Percent less than 0';
