@@ -24,3 +24,26 @@ JOIN carts c on u.user_id = c.users_user_id
 JOIN orders o on c.cart_id = o.carts_cart_id WHERE u.city = 'city 1';
 SELECT update_shipping_total('city 19999');
 ROLLBACK;
+
+-- использование циклов
+CREATE OR REPLACE FUNCTION get_product(pattern varchar)
+RETURNS TABLE(
+    product_id int,
+	product_title varchar
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    product record;
+BEGIN
+	FOR product IN ( SELECT product_id, product_title
+	                FROM products
+	                WHERE product_title ILIKE pattern)
+    LOOP
+	    product_title := product.product_title;
+		product_id := product.product_id;
+        RETURN NEXT;
+	end loop;
+end; $$;
+
+SELECT get_product('1');

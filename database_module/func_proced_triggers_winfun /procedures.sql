@@ -6,15 +6,15 @@ DECLARE
     need_category_id int;
 BEGIN
     IF percent > 0 THEN
-        IF EXISTS(SELECT 1 FROM categories WHERE category_title = need_category_name) THEN
             SELECT INTO need_category_id category_id
                     FROM categories
                     WHERE category_title = need_category_name;
+            IF need_category_id IS NOT NULL THEN
             UPDATE products SET price = price + price*percent/100
                     WHERE categories_category_id = need_category_id;
-        COMMIT;
-        ELSE
-            RAISE EXCEPTION '% was not found', need_category_name;
+            COMMIT;
+            ELSE
+                RAISE EXCEPTION '% was not found', need_category_name;
         END IF;
     ELSE
         RAISE EXCEPTION 'Percent less than 0';
