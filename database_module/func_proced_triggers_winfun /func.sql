@@ -28,22 +28,27 @@ ROLLBACK;
 -- использование циклов
 CREATE OR REPLACE FUNCTION get_product(pattern varchar)
 RETURNS TABLE(
-    product_id int,
-	product_title varchar
+    n_product_id int,
+	n_product_title varchar,
+	n_in_stock int
 )
 LANGUAGE plpgsql
 AS $$
 DECLARE
     product record;
 BEGIN
-	FOR product IN ( SELECT product_id, product_title
+	FOR product IN ( SELECT product_id, product_title, in_stock
 	                FROM products
-	                WHERE product_title ILIKE pattern)
+	                WHERE product_title ILIKE '%'||pattern||'%')
     LOOP
-	    product_title := product.product_title;
-		product_id := product.product_id;
-        RETURN NEXT;
+	    IF product.in_stock > 0 THEN
+            n_product_title := product.product_title;
+            n_product_id := product.product_id;
+            n_in_stock := product.in_stock;
+            RETURN NEXT;
+        END IF;
 	end loop;
 end; $$;
 
-SELECT get_product('1');
+DROP FUNCTION get_product(pattern varchar);
+SELECT get_product('11');
