@@ -82,3 +82,47 @@ $$;
 
 SELECT calculate_price(13005, 3);
 DROP FUNCTION IF EXISTS calculate_price(n_car_number int, n_days int);
+
+-- поиск машин по производителю, которые не заняты
+CREATE OR REPLACE FUNCTION get_car_by_manufacture(n_manufacture_name varchar)
+   RETURNS TABLE(
+       car_number int,
+       branch_id int,
+       model_name varchar,
+       price double precision
+                )
+LANGUAGE plpgsql
+AS $$
+DECLARE
+	rec_car record;
+    date_end timestamp;
+	cur_cars cursor(cur_manufacture_name varchar)
+		 FOR SELECT c.car_id, c.car_number, b.branch_id, m.model_name, c.price
+		 FROM model m
+		 JOIN manufacture m2 on m2.manufacture_id = m.manufacture_id
+		 JOIN car c on m.model_id = c.model_id
+		 JOIN branch b on b.branch_id = c.branch_id
+		 WHERE m2.manufacture_name = cur_manufacture_name
+         ORDER BY c.price;
+BEGIN
+   OPEN cur_cars(n_manufacture_name);
+   LOOP
+      FETCH cur_cars INTO rec_car;
+      EXIT WHEN NOT found;
+      SELECT INTO date_end MAX(date_renting + make_interval(days => period_renting))
+          FROM renting
+          WHERE car_id = rec_car.car_id;
+
+      IF date_end < now() THEN
+             car_number := rec_car.car_number;
+             branch_id := rec_car.branch_id;
+             model_name := rec_car.model_name;
+             price := rec_car.price;
+             RETURN NEXT;
+      END IF;
+   END LOOP;
+   CLOSE cur_cars;
+end; $$;
+
+DROP FUNCTION IF EXISTS get_car_by_manufacture(n_manufacture_name varchar);
+SELECT * FROM get_car_by_manufacture('manufacture 2');
