@@ -2,3 +2,12 @@
 venv/
 python_module/task_2/python_task2/
 /python_module/tic_tac_toe/winners_game.log
+/database_module/creation_database/.env.list
+/database_module/creation_database/cart_products.csv
+/database_module/creation_database/categories.csv
+/database_module/creation_database/carts.csv
+/database_module/creation_database/docker-compose.yml
+/database_module/creation_database/order_statuses.csv
+/database_module/creation_database/orders.csv
+/database_module/creation_database/products.csv
+/database_module/creation_database/users.csv
